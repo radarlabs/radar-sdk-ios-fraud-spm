@@ -1,0 +1,14 @@
+# Build artifacts
+*.xcframework
+*.xcframework.zip
+*.xcarchive
+
+# Xcode
+.DS_Store
+*.xcuserstate
+*.xcuserdatad
+*.xcworkspace/xcuserdata/
+
+# Build directories
+build/
+dist/
