@@ -8,10 +8,10 @@ let package = Package(
         .iOS(.v10)
     ],
     products: [
-        .library(name: "RadarSDKFraud", targets: ["RadarSDKFraud", "_RadarStub"]),
+        .library(name: "RadarSDKFraud", targets: ["RadarSDKFraud", "_RadarStubFraud"]),
     ],
     targets: [
-        .target(name: "_RadarStub"),
+        .target(name: "_RadarStubFraud"),
         .binaryTarget(
             name: "RadarSDKFraud",
             url: "https://github.com/radarlabs/radar-sdk-ios-fraud-spm/releases/download/0.0.1-beta.4/RadarSDKFraud.xcframework.zip",
