@@ -1,0 +1,38 @@
+---
+triple:          'arm64-apple-darwin'
+binary-path:     '/Users/runner/Library/Developer/Xcode/DerivedData/RadarSDKFraud-acypzsechtxdugfywzeqytkuoutk/Build/Intermediates.noindex/ArchiveIntermediates/RadarSDKFraud/InstallationBuildProductsLocation/Library/Frameworks/RadarSDKFraud.framework/RadarSDKFraud'
+relocations:
+  - { offset: 0x60FD3, size: 0x8, addend: 0x0, symName: _RadarSDKFraudVersionString, symObjAddr: 0x0, symBinAddr: 0x3DA0, symSize: 0x0 }
+  - { offset: 0x61008, size: 0x8, addend: 0x0, symName: _RadarSDKFraudVersionNumber, symObjAddr: 0x38, symBinAddr: 0x3DD8, symSize: 0x0 }
+  - { offset: 0x61045, size: 0x8, addend: 0x0, symName: '+[RadarSDKFraud sharedInstance]', symObjAddr: 0x0, symBinAddr: 0xDC0, symSize: 0x74 }
+  - { offset: 0x61053, size: 0x8, addend: 0x0, symName: '+[RadarSDKFraud sharedInstance]', symObjAddr: 0x0, symBinAddr: 0xDC0, symSize: 0x74 }
+  - { offset: 0x6107D, size: 0x8, addend: 0x0, symName: _sharedInstance.once, symObjAddr: 0xCCB0, symBinAddr: 0xC5C0, symSize: 0x0 }
+  - { offset: 0x61093, size: 0x8, addend: 0x0, symName: _sharedInstance.sharedInstance, symObjAddr: 0xCCB8, symBinAddr: 0xC5C8, symSize: 0x0 }
+  - { offset: 0x61284, size: 0x8, addend: 0x0, symName: '___31+[RadarSDKFraud sharedInstance]_block_invoke', symObjAddr: 0x74, symBinAddr: 0xE34, symSize: 0x28 }
+  - { offset: 0x612C3, size: 0x8, addend: 0x0, symName: '-[RadarSDKFraud getFraudPayloadWithLocation:nonce:completionHandler:]', symObjAddr: 0x9C, symBinAddr: 0xE5C, symSize: 0x344 }
+  - { offset: 0x61375, size: 0x8, addend: 0x0, symName: '___69-[RadarSDKFraud getFraudPayloadWithLocation:nonce:completionHandler:]_block_invoke', symObjAddr: 0x3E0, symBinAddr: 0x11A0, symSize: 0x148 }
+  - { offset: 0x61449, size: 0x8, addend: 0x0, symName: ___copy_helper_block_e8_32s40b, symObjAddr: 0x528, symBinAddr: 0x12E8, symSize: 0x34 }
+  - { offset: 0x61472, size: 0x8, addend: 0x0, symName: ___destroy_helper_block_e8_32s40s, symObjAddr: 0x55C, symBinAddr: 0x131C, symSize: 0x28 }
+  - { offset: 0x61491, size: 0x8, addend: 0x0, symName: '-[RadarSDKFraud isJailbroken]', symObjAddr: 0x584, symBinAddr: 0x1344, symSize: 0xC98 }
+  - { offset: 0x6190C, size: 0x8, addend: 0x0, symName: '-[RadarSDKFraud kDeviceId]', symObjAddr: 0x121C, symBinAddr: 0x1FDC, symSize: 0x3B4 }
+  - { offset: 0x61B06, size: 0x8, addend: 0x0, symName: '-[RadarSDKFraud isSimulator]', symObjAddr: 0x15D0, symBinAddr: 0x2390, symSize: 0x8 }
+  - { offset: 0x61B3A, size: 0x8, addend: 0x0, symName: '-[RadarSDKFraud deviceId]', symObjAddr: 0x15D8, symBinAddr: 0x2398, symSize: 0x6C }
+  - { offset: 0x61B6E, size: 0x8, addend: 0x0, symName: '-[RadarSDKFraud startIPMonitoringWithCallback:]', symObjAddr: 0x1644, symBinAddr: 0x2404, symSize: 0x98 }
+  - { offset: 0x61C3F, size: 0x8, addend: 0x0, symName: '___47-[RadarSDKFraud startIPMonitoringWithCallback:]_block_invoke', symObjAddr: 0x16DC, symBinAddr: 0x249C, symSize: 0x18C }
+  - { offset: 0x61D28, size: 0x8, addend: 0x0, symName: ___copy_helper_block_e8_32s, symObjAddr: 0x1868, symBinAddr: 0x2628, symSize: 0x8 }
+  - { offset: 0x61D4F, size: 0x8, addend: 0x0, symName: ___destroy_helper_block_e8_32s, symObjAddr: 0x1870, symBinAddr: 0x2630, symSize: 0x8 }
+  - { offset: 0x61D6E, size: 0x8, addend: 0x0, symName: '-[RadarSDKFraud stopIPMonitoring]', symObjAddr: 0x1878, symBinAddr: 0x2638, symSize: 0x3C }
+  - { offset: 0x61DBE, size: 0x8, addend: 0x0, symName: '-[RadarSDKFraud getIPs]', symObjAddr: 0x18B4, symBinAddr: 0x2674, symSize: 0xF0 }
+  - { offset: 0x61ED1, size: 0x8, addend: 0x0, symName: '-[RadarSDKFraud getAttestationWithNonce:completionHandler:]', symObjAddr: 0x19A4, symBinAddr: 0x2764, symSize: 0x154 }
+  - { offset: 0x61F7B, size: 0x8, addend: 0x0, symName: '___59-[RadarSDKFraud getAttestationWithNonce:completionHandler:]_block_invoke', symObjAddr: 0x1AF8, symBinAddr: 0x28B8, symSize: 0x168 }
+  - { offset: 0x6209A, size: 0x8, addend: 0x0, symName: '___59-[RadarSDKFraud getAttestationWithNonce:completionHandler:]_block_invoke_2', symObjAddr: 0x1C60, symBinAddr: 0x2A20, symSize: 0x4C }
+  - { offset: 0x62141, size: 0x8, addend: 0x0, symName: ___copy_helper_block_e8_32s40s48b, symObjAddr: 0x1CAC, symBinAddr: 0x2A6C, symSize: 0x3C }
+  - { offset: 0x6216A, size: 0x8, addend: 0x0, symName: ___destroy_helper_block_e8_32s40s48s, symObjAddr: 0x1CE8, symBinAddr: 0x2AA8, symSize: 0x30 }
+  - { offset: 0x62189, size: 0x8, addend: 0x0, symName: '-[RadarSDKFraud monitor]', symObjAddr: 0x1D18, symBinAddr: 0x2AD8, symSize: 0x8 }
+  - { offset: 0x621C0, size: 0x8, addend: 0x0, symName: '-[RadarSDKFraud setMonitor:]', symObjAddr: 0x1D20, symBinAddr: 0x2AE0, symSize: 0xC }
+  - { offset: 0x62201, size: 0x8, addend: 0x0, symName: '-[RadarSDKFraud lastIPs]', symObjAddr: 0x1D2C, symBinAddr: 0x2AEC, symSize: 0x8 }
+  - { offset: 0x62238, size: 0x8, addend: 0x0, symName: '-[RadarSDKFraud setLastIPs:]', symObjAddr: 0x1D34, symBinAddr: 0x2AF4, symSize: 0xC }
+  - { offset: 0x62279, size: 0x8, addend: 0x0, symName: '-[RadarSDKFraud ipChangeCallback]', symObjAddr: 0x1D40, symBinAddr: 0x2B00, symSize: 0x8 }
+  - { offset: 0x622B0, size: 0x8, addend: 0x0, symName: '-[RadarSDKFraud setIpChangeCallback:]', symObjAddr: 0x1D48, symBinAddr: 0x2B08, symSize: 0x8 }
+  - { offset: 0x622EF, size: 0x8, addend: 0x0, symName: '-[RadarSDKFraud .cxx_destruct]', symObjAddr: 0x1D50, symBinAddr: 0x2B10, symSize: 0x3C }
+...
