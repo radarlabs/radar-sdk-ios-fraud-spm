@@ -76,6 +76,7 @@ jobs:
         with:
           title: Automated radar-sdk-ios-fraud-spm version bump to ${{ github.event.release.tag_name }}
           token: ${{ secrets.GITHUB_TOKEN }}
+          base: master
       # auto approve the pull request on behalf of code owner for automerge
       - name: Auto Approve Pull Request
         if: ${{ steps.cpr.outputs.pull-request-number }}
