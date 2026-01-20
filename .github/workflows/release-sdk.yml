@@ -63,15 +63,6 @@ jobs:
           ! pod trunk info RadarSDKFraud | grep -q $VERSION
           echo "RadarSDKFraud version is OK"
 
-      - name: Deploy to Cocoapods
-        run: |
-          set -eo pipefail
-          gem install cocoapods
-          pod lib lint --allow-warnings RadarSDKFraud.podspec
-          pod trunk push --allow-warnings RadarSDKFraud.podspec
-        env:
-          COCOAPODS_TRUNK_TOKEN: ${{ secrets.COCOAPODS_TRUNK_TOKEN }}
-
       - name: Clean up external repository checkout
         run: rm -rf radar-sdk-ios-fraud
 
@@ -107,3 +98,12 @@ jobs:
           prerelease: ${{ github.event.inputs.prerelease }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Deploy to Cocoapods
+        if: ${{ steps.cpr.outputs.pull-request-number }}
+        run: |
+          set -eo pipefail
+          gem install cocoapods
+          pod lib lint --allow-warnings RadarSDKFraud.podspec
+          pod trunk push --allow-warnings RadarSDKFraud.podspec
+        env:
+          COCOAPODS_TRUNK_TOKEN: ${{ secrets.COCOAPODS_TRUNK_TOKEN }}
