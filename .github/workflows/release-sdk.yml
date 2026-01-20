@@ -1,14 +1,17 @@
-# When a new release is created on GitHub, this workflow builds RadarSDKFraud as an XCFramework,
-# publishes CocoaPods update, and updates Package.swift.
 name: RadarSDKFraud Release
 
 on:
-  # Triggered when a new release is tagged in GitHub.
-  release:
-    types: [ published ]
-
-  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
+    inputs:
+      release:
+        description: 'Release version tag (e.g., 0.0.1-beta.9)'
+        required: true
+        type: string
+      prerelease:
+        description: 'Mark as prerelease'
+        required: false
+        type: boolean
+        default: false
 
 jobs:
 
@@ -42,11 +45,6 @@ jobs:
       - name: Zip XCFramework (RadarSDKFraud)
         run: zip -r RadarSDKFraud.xcframework.zip RadarSDKFraud.xcframework -x ".*" -x "__MACOSX" -D
 
-      - name: Upload XCFramework to release (RadarSDKFraud)
-        uses: svenstaro/upload-release-action@v2
-        with:
-          file: RadarSDKFraud.xcframework.zip
-      
       # get sha256 checksum of the XCFramework
       - name: Get SHA256 checksum (RadarSDKFraud)
         id: checksum_radarsdkfraud
@@ -55,9 +53,9 @@ jobs:
       - name: Modify Package.swift and podspec
         run: |
           echo "Modifying Package.swift and RadarSDKFraud.podspec..."
-          sed -i '' 's#url: "https://github.com/radarlabs/radar-sdk-ios-fraud-spm/releases/download/.*/RadarSDKFraud.xcframework.zip"#url: "https://github.com/radarlabs/radar-sdk-ios-fraud-spm/releases/download/${{ github.event.release.tag_name }}/RadarSDKFraud.xcframework.zip"#g' Package.swift
+          sed -i '' 's#url: "https://github.com/radarlabs/radar-sdk-ios-fraud-spm/releases/download/.*/RadarSDKFraud.xcframework.zip"#url: "https://github.com/radarlabs/radar-sdk-ios-fraud-spm/releases/download/${{ github.event.inputs.release }}/RadarSDKFraud.xcframework.zip"#g' Package.swift
           sed -i '' 's#checksum: ".*"#checksum: "${{ steps.checksum_radarsdkfraud.outputs.checksum }}"#g' Package.swift
-          sed -i '' "s/s.version[[:space:]]*=[[:space:]]*'[^']*'/s.version = '${{ github.event.release.tag_name }}'/" RadarSDKFraud.podspec
+          sed -i '' "s/s.version[[:space:]]*=[[:space:]]*'[^']*'/s.version = '${{ github.event.inputs.release }}'/" RadarSDKFraud.podspec
 
       - name: Check versions is not duplicate
         run: |
@@ -74,12 +72,15 @@ jobs:
         env:
           COCOAPODS_TRUNK_TOKEN: ${{ secrets.COCOAPODS_TRUNK_TOKEN }}
 
+      - name: Clean up external repository checkout
+        run: rm -rf radar-sdk-ios-fraud
+
       # open a pull request with the new sdk version
       - name: Create Pull Request
         id: cpr
         uses: peter-evans/create-pull-request@v6
         with:
-          title: Automated radar-sdk-ios-fraud-spm version bump to ${{ github.event.release.tag_name }}
+          title: Automated radar-sdk-ios-fraud-spm version bump to ${{ github.event.inputs.release }}
           token: ${{ secrets.GITHUB_TOKEN }}
           base: master
       # auto approve the pull request on behalf of code owner for automerge
@@ -94,50 +95,15 @@ jobs:
         run: gh pr merge --squash --auto ${{ steps.cpr.outputs.pull-request-number }}
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Wait for PR merge and update tag
+      - name: Create Release
         if: ${{ steps.cpr.outputs.pull-request-number }}
-        run: |
-          PR_NUMBER=${{ steps.cpr.outputs.pull-request-number }}
-          MAX_WAIT=300  # 5 minutes max wait
-          ELAPSED=0
-          INTERVAL=10   # Check every 10 seconds
-          
-          echo "Waiting for PR #$PR_NUMBER to merge..."
-          while [ $ELAPSED -lt $MAX_WAIT ]; do
-            PR_STATE=$(gh pr view $PR_NUMBER --json state,merged --jq -r '.state + "|" + (.merged | tostring)')
-            STATE=$(echo $PR_STATE | cut -d'|' -f1)
-            MERGED=$(echo $PR_STATE | cut -d'|' -f2)
-            
-            if [ "$STATE" = "MERGED" ] || [ "$MERGED" = "true" ]; then
-              echo "PR #$PR_NUMBER has been merged!"
-              break
-            fi
-            
-            echo "PR not merged yet, waiting... (${ELAPSED}s/${MAX_WAIT}s)"
-            sleep $INTERVAL
-            ELAPSED=$((ELAPSED + INTERVAL))
-          done
-          
-          if [ "$MERGED" != "true" ]; then
-            echo "Warning: PR did not merge within timeout, skipping tag update"
-            exit 0
-          fi
-          
-          # Configure git
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          
-          # Fetch latest master
-          git fetch origin master
-          git checkout master
-          git pull origin master
-          
-          # Update tag to point to current HEAD
-          TAG_NAME="${{ github.event.release.tag_name }}"
-          echo "Updating tag $TAG_NAME to point to $(git rev-parse HEAD)"
-          git tag -f $TAG_NAME
-          git push origin $TAG_NAME --force
-          echo "Tag $TAG_NAME has been updated to point to merged commit"
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ github.event.inputs.release }}
+          name: ${{ github.event.inputs.release }}
+          files: RadarSDKFraud.xcframework.zip
+          target_commitish: ${{ steps.cpr.outputs.pull-request-head-sha }}
+          draft: false
+          prerelease: ${{ github.event.inputs.prerelease }}
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
