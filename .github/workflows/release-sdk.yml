@@ -94,3 +94,50 @@ jobs:
         run: gh pr merge --squash --auto ${{ steps.cpr.outputs.pull-request-number }}
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Wait for PR merge and update tag
+        if: ${{ steps.cpr.outputs.pull-request-number }}
+        run: |
+          PR_NUMBER=${{ steps.cpr.outputs.pull-request-number }}
+          MAX_WAIT=300  # 5 minutes max wait
+          ELAPSED=0
+          INTERVAL=10   # Check every 10 seconds
+          
+          echo "Waiting for PR #$PR_NUMBER to merge..."
+          while [ $ELAPSED -lt $MAX_WAIT ]; do
+            PR_STATE=$(gh pr view $PR_NUMBER --json state,merged --jq -r '.state + "|" + (.merged | tostring)')
+            STATE=$(echo $PR_STATE | cut -d'|' -f1)
+            MERGED=$(echo $PR_STATE | cut -d'|' -f2)
+            
+            if [ "$STATE" = "MERGED" ] || [ "$MERGED" = "true" ]; then
+              echo "PR #$PR_NUMBER has been merged!"
+              break
+            fi
+            
+            echo "PR not merged yet, waiting... (${ELAPSED}s/${MAX_WAIT}s)"
+            sleep $INTERVAL
+            ELAPSED=$((ELAPSED + INTERVAL))
+          done
+          
+          if [ "$MERGED" != "true" ]; then
+            echo "Warning: PR did not merge within timeout, skipping tag update"
+            exit 0
+          fi
+          
+          # Configure git
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          
+          # Fetch latest master
+          git fetch origin master
+          git checkout master
+          git pull origin master
+          
+          # Update tag to point to current HEAD
+          TAG_NAME="${{ github.event.release.tag_name }}"
+          echo "Updating tag $TAG_NAME to point to $(git rev-parse HEAD)"
+          git tag -f $TAG_NAME
+          git push origin $TAG_NAME --force
+          echo "Tag $TAG_NAME has been updated to point to merged commit"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
