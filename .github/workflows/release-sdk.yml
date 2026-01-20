@@ -66,6 +66,9 @@ jobs:
       - name: Clean up external repository checkout
         run: rm -rf radar-sdk-ios-fraud
 
+      - name: Clean up external repository checkout
+        run: rm -rf radar-sdk-ios-fraud
+
       # open a pull request with the new sdk version
       - name: Create Pull Request
         id: cpr
