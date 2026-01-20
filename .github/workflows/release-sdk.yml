@@ -18,8 +18,12 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+
+      - name: Checkout radar-sdk-ios-fraud
+        uses: actions/checkout@v4
         with:
-          submodules: recursive
+          repository: radarlabs/radar-sdk-ios-fraud
+          path: radar-sdk-ios-fraud
           token: ${{ secrets.SUBMODULESTOKEN }}
 
       - name: Use Xcode 16.4
@@ -45,7 +49,7 @@ jobs:
       # get sha256 checksum of the XCFramework
       - name: Get SHA256 checksum (RadarSDKFraud)
         id: checksum_radarsdkfraud
-        run: echo "::set-output name=checksum::$(shasum -a 256 RadarSDKFraud.xcframework.zip | cut -d ' ' -f 1)"
+        run: echo "checksum=$(shasum -a 256 RadarSDKFraud.xcframework.zip | cut -d ' ' -f 1)" >> $GITHUB_OUTPUT
 
       - name: Modify Package.swift and podspec
         run: |

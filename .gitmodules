@@ -1,4 +1,0 @@
-[submodule "radar-sdk-ios-fraud"]
-	path = radar-sdk-ios-fraud
-	url = https://github.com/radarlabs/radar-sdk-ios-fraud.git
-	branch = initial-setup
