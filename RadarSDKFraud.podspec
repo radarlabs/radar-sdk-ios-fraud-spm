@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name                  = 'RadarSDKFraud'
-  s.version = '0.0.1-beta.13'
+  s.version = '0.0.2-beta.5'
   s.summary               = 'Fraud detection plugin for RadarSDK, the leading geofencing and location tracking platform'
   s.homepage              = 'https://radar.com'
   s.author                = { 'Radar Labs, Inc.' => 'support@radar.com' }
