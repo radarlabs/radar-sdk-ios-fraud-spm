@@ -66,18 +66,11 @@ jobs:
         id: checksum_radarsdkfraud
         run: echo "checksum=$(shasum -a 256 RadarSDKFraud.xcframework.zip | cut -d ' ' -f 1)" >> $GITHUB_OUTPUT
 
-      - name: Modify Package.swift and podspec
+      - name: Modify Package.swift
         run: |
-          echo "Modifying Package.swift and RadarSDKFraud.podspec..."
+          echo "Modifying Package.swift..."
           sed -i '' 's#url: "https://github.com/radarlabs/radar-sdk-ios-fraud-spm/releases/download/.*/RadarSDKFraud.xcframework.zip"#url: "https://github.com/radarlabs/radar-sdk-ios-fraud-spm/releases/download/${{ steps.set_release_info.outputs.release }}/RadarSDKFraud.xcframework.zip"#g' Package.swift
           sed -i '' 's#checksum: ".*"#checksum: "${{ steps.checksum_radarsdkfraud.outputs.checksum }}"#g' Package.swift
-          sed -i '' "s/s.version[[:space:]]*=[[:space:]]*'[^']*'/s.version = '${{ steps.set_release_info.outputs.release }}'/" RadarSDKFraud.podspec
-
-      - name: Check versions is not duplicate
-        run: |
-          VERSION=$(pod ipc spec RadarSDKFraud.podspec | jq -r .version)
-          ! pod trunk info RadarSDKFraud | grep -q $VERSION
-          echo "RadarSDKFraud version is OK"
 
       - name: Clean up external repository checkout
         run: rm -rf radar-sdk-ios-fraud
@@ -114,17 +107,3 @@ jobs:
           prerelease: ${{ steps.set_release_info.outputs.prerelease }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Checkout PR branch for CocoaPods
-        if: ${{ steps.cpr.outputs.pull-request-number }}
-        run: |
-          git fetch origin
-          git checkout ${{ steps.cpr.outputs.pull-request-head-sha }}
-      - name: Deploy to Cocoapods
-        if: ${{ steps.cpr.outputs.pull-request-number }}
-        run: |
-          set -eo pipefail
-          gem install cocoapods
-          pod lib lint --allow-warnings RadarSDKFraud.podspec
-          pod trunk push --allow-warnings RadarSDKFraud.podspec
-        env:
-          COCOAPODS_TRUNK_TOKEN: ${{ secrets.COCOAPODS_TRUNK_TOKEN }}
