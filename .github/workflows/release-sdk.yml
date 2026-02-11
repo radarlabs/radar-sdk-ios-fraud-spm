@@ -72,9 +72,6 @@ jobs:
           sed -i '' 's#url: "https://github.com/radarlabs/radar-sdk-ios-fraud-spm/releases/download/.*/RadarSDKFraud.xcframework.zip"#url: "https://github.com/radarlabs/radar-sdk-ios-fraud-spm/releases/download/${{ steps.set_release_info.outputs.release }}/RadarSDKFraud.xcframework.zip"#g' Package.swift
           sed -i '' 's#checksum: ".*"#checksum: "${{ steps.checksum_radarsdkfraud.outputs.checksum }}"#g' Package.swift
 
-      - name: Clean up external repository checkout
-        run: rm -rf radar-sdk-ios-fraud
-
       # open a pull request with the new sdk version
       - name: Create Pull Request
         id: cpr
