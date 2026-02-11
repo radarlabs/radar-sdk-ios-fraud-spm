@@ -14,8 +14,8 @@ let package = Package(
         .target(name: "_RadarStubFraud"),
         .binaryTarget(
             name: "RadarSDKFraud",
-            url: "https://github.com/radarlabs/radar-sdk-ios-fraud-spm/releases/download/0.0.2-beta.7/RadarSDKFraud.xcframework.zip",
-            checksum: "3f6e7896350fd6c5a57ad1fc8c944b45aeffde912058a7ca35c30bbfa743e6e3"
+            url: "https://github.com/radarlabs/radar-sdk-ios-fraud-spm/releases/download/0.0.3-beta.1/RadarSDKFraud.xcframework.zip",
+            checksum: "55db1c9a33666c4204fcb6d61f2934df2886cbfff1d86bdef5741ace6dcca803"
         )
     ]
 )
