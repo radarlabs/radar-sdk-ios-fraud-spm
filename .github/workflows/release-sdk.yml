@@ -42,7 +42,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: radarlabs/radar-sdk-ios-fraud
-          ref: initial-setup
+          ref: main
           path: radar-sdk-ios-fraud
           token: ${{ secrets.SUBMODULESTOKEN }}
 
