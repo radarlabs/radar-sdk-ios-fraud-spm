@@ -5,7 +5,7 @@ import PackageDescription
 let package = Package(
     name: "RadarSDKFraud",
     platforms: [
-        .iOS(.v10)
+        .iOS(.v15)
     ],
     products: [
         .library(name: "RadarSDKFraud", targets: ["RadarSDKFraud", "_RadarStubFraud"]),
